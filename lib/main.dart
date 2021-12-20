@@ -1,11 +1,18 @@
+import 'package:clone_netflix/components/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import 'utils/constant.dart';
+
 void main() {
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.black, statusBarIconBrightness: Brightness.light));
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      // statusBarIconBrightness: Brightness.light,
+    ),
+  );
   runApp(const NetflixUiClone());
 }
 
@@ -36,10 +43,12 @@ class NetflixUiClone extends StatelessWidget {
       title: 'Netflix UI Clone',
       themeMode: ThemeMode.light,
       theme: ThemeData.light().copyWith(
-          primaryColor: const Color.fromRGBO(100, 229, 9, 1),
-          backgroundColor: Colors.black,
-          scaffoldBackgroundColor: Colors.black,
-          primaryIconTheme: IconThemeData(color: Colors.white)),
+        primaryColor: const Color.fromRGBO(100, 229, 9, 1),
+        // backgroundColor: Colors.black,
+        // scaffoldBackgroundColor: Colors.black,
+        iconTheme: IconThemeData(color: Colors.white),
+        primaryIconTheme: IconThemeData(color: Colors.white),
+      ),
       darkTheme: ThemeData.dark(),
       home: const MyHomePage(),
     );
@@ -61,42 +70,66 @@ class _MyHomePageState extends State<MyHomePage> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        body: SafeArea(
-          child: NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return [
-                SliverAppBar(
-                  // expandedHeight: 200.0,
-                  floating: false,
-                  title: Text("Netflix"),
-                ),
-                SliverPersistentHeader(
-                  delegate: _SliverAppBarDelegate(
-                    TabBar(
-                      // labelColor: Colors.black87,
-                      // unselectedLabelColor: Colors.grey,
-                      tabs: [
-                        Tab(icon: Icon(Icons.info), text: "Tab 1"),
-                        Tab(icon: Icon(Icons.lightbulb_outline), text: "Tab 2"),
-                        Tab(
-                            icon: Icon(Icons.assistant_direction),
-                            text: "Tab 3"),
-                      ],
-                    ),
-                  ),
-                  pinned: true,
-                ),
-              ];
-            },
-            body: TabBarView(
-              children: [
-                Icon(Icons.flight, size: 350),
-                Icon(Icons.directions_transit, size: 350),
-                Icon(Icons.directions_car, size: 350),
-              ],
-            ),
+        backgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: true,
+        body: CustomScrollView(
+          slivers: [
+            ...CustomAppBar.customAppBar(),
+            SliverToBoxAdapter(
+              child: Tab1(),
+            )
+          ],
+        )
+      ),
+    );
+  }
+}
+
+class Solution1 extends StatelessWidget {
+  const Solution1({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return NestedScrollView(
+      headerSliverBuilder: (context, innerBoxIsScrolled) {
+        return CustomAppBar.customAppBar();
+      },
+      body: TabBarView(
+        children: [
+          Tab1(),
+          Container(
+            color: Colors.red,
           ),
-        ),
+          Container(
+            color: Colors.red,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Tab1 extends StatelessWidget {
+  const Tab1({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Image.asset(
+            "$imageDir/witcher_poster.jpg",
+            fit: BoxFit.cover,
+          ),
+          Image.asset(
+            "$imageDir/witcher_poster.jpg",
+            fit: BoxFit.cover,
+          ),
+          Image.asset(
+            "$imageDir/witcher_poster.jpg",
+            fit: BoxFit.cover,
+          ),
+        ],
       ),
     );
   }
