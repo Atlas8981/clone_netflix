@@ -1,10 +1,9 @@
-import 'package:clone_netflix/components/custom_app_bar.dart';
+import 'package:clone_netflix/components/bottom_text.dart';
 import 'package:clone_netflix/components/custom_scaffold.dart';
 import 'package:clone_netflix/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:sliver_tools/sliver_tools.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -16,8 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late final statusBarHeight = MediaQuery.of(context).padding.top;
-
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -26,10 +23,85 @@ class _HomePageState extends State<HomePage> {
           children: [
             SpecialHomeContent(),
             MyListRow(),
+            OnlyOnNetflixList(),
           ],
         ),
       ),
       onlyAppBar: false,
+    );
+  }
+}
+
+class OnlyOnNetflixList extends StatelessWidget {
+  const OnlyOnNetflixList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: 8, top: 8),
+          child: Text(
+            "Only On Netflix",
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: List.generate(
+              10,
+              (index) {
+                return OnlyOnNetflixItem();
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class OnlyOnNetflixItem extends StatelessWidget {
+  const OnlyOnNetflixItem({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 8),
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            child: Image.asset(
+              "$imageDir/witcher_poster.jpg",
+              width: 175,
+              height: 350,
+              fit: BoxFit.cover,
+            ),
+          ),
+          BottomTexts(
+            bottomTextModels: [
+              BottomTextModel(
+                text: "New Episode",
+                backgroundColor: primaryColor,
+                textColor: Colors.white,
+              ),
+              BottomTextModel(
+                text: "Weekly",
+                backgroundColor: Colors.white,
+                textColor: Colors.black,
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }
@@ -42,15 +114,18 @@ class MyListRow extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "My List",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        Padding(
+          padding: EdgeInsets.only(left: 8),
+          child: Text(
+            "My List",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             children: List.generate(
-              100,
+              10,
               (index) {
                 return MyListItemRow();
               },
@@ -65,58 +140,31 @@ class MyListRow extends StatelessWidget {
 class MyListItemRow extends StatelessWidget {
   const MyListItemRow({
     Key? key,
-    this.text,
   }) : super(key: key);
-
-  final String? text;
-
-  bottomText() {
-    if (text != null) {
-      return Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          width: 120,
-          height: 150,
-          padding: EdgeInsets.all(8),
-          child: FittedBox(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: primaryColor,
-                  borderRadius: BorderRadius.all(Radius.circular(3))),
-              padding: EdgeInsets.all(5),
-              child: Text(
-                "New Episodes",
-                style: TextStyle(fontSize: 11, height: 1),
-              ),
-            ),
-          ),
-        ),
-      );
-    } else {
-      return Container();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          child: Image.asset(
-            "$imageDir/witcher_poster.jpg",
-            width: 120,
-            height: 150,
-            fit: BoxFit.cover,
+    return Padding(
+      padding: EdgeInsets.only(left: 8),
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            child: Image.asset(
+              "$imageDir/witcher_poster.jpg",
+              width: 120,
+              height: 150,
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        bottomText()
-      ],
+          BottomTexts(),
+        ],
+      ),
     );
   }
 }
 
+//The biggest image with play, add to list, and information
 class SpecialHomeContent extends StatelessWidget {
   const SpecialHomeContent({Key? key}) : super(key: key);
 
@@ -140,15 +188,16 @@ class SpecialHomeContent extends StatelessWidget {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.black.withOpacity(0),
-                        Colors.black.withOpacity(0.8),
-                        Colors.black.withOpacity(1),
-                      ],
-                    ),),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.black.withOpacity(0),
+                          Colors.black.withOpacity(0.8),
+                          Colors.black.withOpacity(1),
+                        ],
+                      ),
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -166,6 +215,7 @@ class SpecialHomeContent extends StatelessWidget {
                           ),
                           onPressed: () {},
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Icon(
                                 Icons.play_arrow,
@@ -177,9 +227,9 @@ class SpecialHomeContent extends StatelessWidget {
                               Text(
                                 "Play",
                                 style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                ),
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    height: 2),
                               ),
                             ],
                           ),

@@ -59,7 +59,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                       floating: true,
                       snap: true,
                       backgroundColor: changingColor,
-                      titleSpacing: 0,
+                      titleSpacing: 8,
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

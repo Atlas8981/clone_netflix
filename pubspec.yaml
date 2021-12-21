@@ -37,6 +37,7 @@ dependencies:
   get: ^4.3.8
   sliver_tools: ^0.2.5
   google_fonts: ^2.1.0
+  animations: ^2.0.2
 
 
 dev_dependencies:
