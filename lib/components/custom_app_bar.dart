@@ -120,11 +120,7 @@ class SafeAreaPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
     return Container(
       color: backgroundColor,
       child: SafeArea(
-        bottom: false,
-        top: false,
-        child: SizedBox.expand(
-          child: child,
-        ),
+        child: SizedBox(height: 75, child: child),
       ),
     );
   }

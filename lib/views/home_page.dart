@@ -23,7 +23,8 @@ class _HomePageState extends State<HomePage> {
           children: [
             SpecialHomeContent(),
             MyListRow(),
-            OnlyOnNetflixList(),
+            OnlyOnNetflixRow(),
+            TrendingRow(),
           ],
         ),
       ),
@@ -32,8 +33,42 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class OnlyOnNetflixList extends StatelessWidget {
-  const OnlyOnNetflixList({Key? key}) : super(key: key);
+class TrendingRow extends StatelessWidget {
+  const TrendingRow({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: 8, top: 8),
+          child: Text(
+            "Trending",
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: List.generate(
+              10,
+              (index) {
+                return HomePageItem();
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class OnlyOnNetflixRow extends StatelessWidget {
+  const OnlyOnNetflixRow({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +162,7 @@ class MyListRow extends StatelessWidget {
             children: List.generate(
               10,
               (index) {
-                return MyListItemRow();
+                return HomePageItem();
               },
             ),
           ),
@@ -137,8 +172,8 @@ class MyListRow extends StatelessWidget {
   }
 }
 
-class MyListItemRow extends StatelessWidget {
-  const MyListItemRow({
+class HomePageItem extends StatelessWidget {
+  const HomePageItem({
     Key? key,
   }) : super(key: key);
 
