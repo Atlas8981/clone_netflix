@@ -1,83 +1,145 @@
+import 'package:clone_netflix/views/tv_shows_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sliver_tools/sliver_tools.dart';
 
-class CustomAppBar {
-  static customAppBar() {
-    return [
-      SliverAppBar(
-        // expandedHeight: 200.0,
-        floating: true,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            FlutterLogo(
-              size: 42,
-            ),
-            Row(
-              children: [
-                Icon(
-                  Icons.search,
-                  size: 28,
-                ),
-                SizedBox(
-                  width: 12,
-                ),
-                Icon(
-                  Icons.verified_user,
-                  size: 28,
-                ),
-              ],
-            )
-          ],
-        ),
-        backgroundColor: Colors.transparent,
-      ),
-      SliverPersistentHeader(
-        delegate: _SliverAppBarDelegate(
-          TabBar(
-            indicatorColor: Colors.transparent,
-            tabs: [
-              Tab(
-                text: "TV Shows",
+class CustomAppBar extends StatelessWidget {
+  const CustomAppBar({
+    Key? key,
+    this.scrollOffset = 0.0,
+  }) : super(key: key);
+  final double scrollOffset;
+
+  @override
+  Widget build(BuildContext context) {
+    final Color changingColor =
+        Colors.black.withOpacity((scrollOffset / 350).clamp(0, 0.8).toDouble());
+    return MultiSliver(
+      children: [
+        SliverAppBar(
+          floating: true,
+          snap: true,
+          backgroundColor: changingColor,
+          titleSpacing: 0,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              FlutterLogo(
+                size: 42,
               ),
-              Tab(text: "Movies"),
-              Tab(
-                child: Row(
-                  children: [
-                    Text("Categories"),
-                    Icon(Icons.keyboard_arrow_down)
-                  ],
-                ),
-              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.search,
+                    size: 28,
+                  ),
+                  SizedBox(
+                    width: 12,
+                  ),
+                  Icon(
+                    Icons.verified_user,
+                    size: 28,
+                  ),
+                ],
+              )
             ],
           ),
         ),
-        pinned: true,
-      ),
-    ];
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: SafeAreaPersistentHeaderDelegate(
+            backgroundColor: changingColor,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _AppBarButton(
+                        title: 'TV Shows',
+                        onTap: () => Get.to(() => TvShowsPage()),
+                      ),
+                      _AppBarButton(
+                        title: 'Movies',
+                        onTap: () => print('Movies'),
+                      ),
+                      _AppBarButton(
+                        title: 'My List',
+                        onTap: () => print('My List'),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
 
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate(this._tabBar);
+class _AppBarButton extends StatelessWidget {
+  final String title;
+  final Function() onTap;
 
-  final TabBar _tabBar;
+  const _AppBarButton({
+    Key? key,
+    required this.title,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
-  double get minExtent => _tabBar.preferredSize.height;
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Text(
+        title,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 16.0,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+}
 
-  @override
-  double get maxExtent => _tabBar.preferredSize.height;
+class SafeAreaPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final Widget child;
+  final Color backgroundColor;
+
+  const SafeAreaPersistentHeaderDelegate({
+    required this.child,
+    required this.backgroundColor,
+  });
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      child: _tabBar,
+      color: backgroundColor,
+      child: SafeArea(
+        bottom: false,
+        top: false,
+        child: SizedBox.expand(
+          child: child,
+        ),
+      ),
     );
   }
 
   @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+  double get maxExtent => 75;
+
+  @override
+  double get minExtent => 75;
+
+  @override
+  bool shouldRebuild(SafeAreaPersistentHeaderDelegate old) {
+    if (old.child != child) {
+      return true;
+    }
     return false;
   }
 }
