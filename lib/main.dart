@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -47,13 +48,14 @@ class NetflixUiClone extends StatelessWidget {
         // scaffoldBackgroundColor: Colors.black,
         iconTheme: IconThemeData(color: Colors.white),
         primaryIconTheme: IconThemeData(color: Colors.white),
+        textTheme: Theme.of(context).textTheme.apply(
+              bodyColor: Colors.white,
+              displayColor: Colors.red,
+              fontFamily: 'MartelSans',
+            ),
       ),
       darkTheme: ThemeData.dark(),
       home: const HomePage(),
     );
   }
 }
-
-
-
-

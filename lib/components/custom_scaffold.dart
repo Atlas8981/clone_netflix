@@ -52,7 +52,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
           SliverStack(
             children: [
               SliverToBoxAdapter(
-                child: widget.child,
+                child: widget.child
               ),
               (widget.onlyAppBar)
                   ? SliverAppBar(
