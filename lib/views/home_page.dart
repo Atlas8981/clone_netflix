@@ -1,4 +1,5 @@
 import 'package:clone_netflix/components/bottom_text.dart';
+import 'package:clone_netflix/components/content_info_bottom_sheet.dart';
 import 'package:clone_netflix/components/custom_scaffold.dart';
 import 'package:clone_netflix/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -203,6 +204,18 @@ class HomePageItem extends StatelessWidget {
 class SpecialHomeContent extends StatelessWidget {
   const SpecialHomeContent({Key? key}) : super(key: key);
 
+  void onPressedInfoButton(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return ContentInfoBottomSheet();
+      },
+      isScrollControlled: false,
+      barrierColor: Colors.transparent,
+      backgroundColor: Colors.transparent,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -242,6 +255,7 @@ class SpecialHomeContent extends StatelessWidget {
                             "My List",
                             style: TextStyle(color: Colors.white),
                           ),
+                          iconMargin: EdgeInsets.symmetric(vertical: 3),
                         ),
                         ElevatedButton(
                           style: ButtonStyle(
@@ -255,6 +269,7 @@ class SpecialHomeContent extends StatelessWidget {
                               Icon(
                                 Icons.play_arrow,
                                 color: Colors.black,
+                                size: 28,
                               ),
                               SizedBox(
                                 width: 10,
@@ -262,18 +277,25 @@ class SpecialHomeContent extends StatelessWidget {
                               Text(
                                 "Play",
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    height: 2),
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  // height: 2,
+                                ),
                               ),
                             ],
                           ),
                         ),
-                        Tab(
-                          icon: Icon(Icons.info_outline),
-                          child: Text(
-                            "Something",
-                            style: TextStyle(color: Colors.white),
+                        InkWell(
+                          onTap: () {
+                            onPressedInfoButton(context);
+                          },
+                          child: Tab(
+                            icon: Icon(Icons.info_outline),
+                            child: Text(
+                              "Something",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            iconMargin: EdgeInsets.symmetric(vertical: 3),
                           ),
                         ),
                       ],
@@ -288,3 +310,4 @@ class SpecialHomeContent extends StatelessWidget {
     );
   }
 }
+

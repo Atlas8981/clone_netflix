@@ -40,15 +40,15 @@ class BottomText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100,
+      width: 90,
       color: bottomTextModel.backgroundColor,
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+      padding: EdgeInsets.symmetric(horizontal: 5),
       child: Text(
         bottomTextModel.text,
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 12,
-          height: 1.5,
+          fontSize: 11,
+          height: 1.6,
           fontWeight: FontWeight.bold,
           color: bottomTextModel.textColor,
         ),
