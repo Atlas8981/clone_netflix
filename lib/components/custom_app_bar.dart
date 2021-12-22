@@ -1,5 +1,6 @@
 import 'package:clone_netflix/views/tv_shows_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
@@ -49,28 +50,31 @@ class CustomAppBar extends StatelessWidget {
           pinned: true,
           delegate: SafeAreaPersistentHeaderDelegate(
             backgroundColor: changingColor,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _AppBarButton(
-                        title: 'TV Shows',
-                        onTap: () => Get.to(() => TvShowsPage()),
-                      ),
-                      _AppBarButton(
-                        title: 'Movies',
-                        onTap: () => print('Movies'),
-                      ),
-                      _AppBarButton(
-                        title: 'My List',
-                        onTap: () => print('My List'),
-                      ),
-                    ],
+            child: Container(
+              color: Colors.red,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _AppBarButton(
+                          title: 'TV Shows',
+                          onTap: () => Get.to(() => TvShowsPage()),
+                        ),
+                        _AppBarButton(
+                          title: 'Movies',
+                          onTap: () => print('Movies'),
+                        ),
+                        _AppBarButton(
+                          title: 'My List',
+                          onTap: () => print('My List'),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -105,16 +109,31 @@ class _AppBarButton extends StatelessWidget {
   }
 }
 
-
-
 class SafeAreaPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
   final Widget child;
   final Color backgroundColor;
 
-  const SafeAreaPersistentHeaderDelegate({
+  SafeAreaPersistentHeaderDelegate({
     required this.child,
     required this.backgroundColor,
   });
+
+  final double height = 70.0;
+
+  late final double _maxExtent = height;
+  late final double _minExtent = height;
+
+  bool determineSafeArea(double shrinkOffset, bool overlapsContent) {
+    if (overlapsContent) {
+      return false;
+    }
+
+    if (shrinkOffset - height == 30) {
+      return false;
+    }
+
+    return true;
+  }
 
   @override
   Widget build(
@@ -122,22 +141,23 @@ class SafeAreaPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
     return Container(
       color: backgroundColor,
       child: SafeArea(
-        child: SizedBox(height: 75, child: child),
+        top: !overlapsContent,
+        child: SizedBox(
+          height: height,
+          child: child,
+        ),
       ),
     );
   }
 
   @override
-  double get maxExtent => 75;
+  double get maxExtent => _maxExtent;
 
   @override
-  double get minExtent => 75;
+  double get minExtent => _minExtent;
 
   @override
   bool shouldRebuild(SafeAreaPersistentHeaderDelegate old) {
-    if (old.child != child) {
-      return true;
-    }
     return false;
   }
 }
