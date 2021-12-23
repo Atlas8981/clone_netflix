@@ -273,7 +273,7 @@ class ContentInfoBottomSheet extends StatelessWidget {
   }
 }
 
-void showCustomBottomSheet(BuildContext context) {
+void showCustomBottomSheet() {
   if (Get.isBottomSheetOpen!) {
     return;
   }

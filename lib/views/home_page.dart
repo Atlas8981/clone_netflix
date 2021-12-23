@@ -107,24 +107,20 @@ class OnlyOnNetflixItem extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  void onClickItem(context) {
-    showCustomBottomSheet(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        onClickItem(context);
+        showCustomBottomSheet();
       },
       child: Padding(
-        padding: EdgeInsets.only(left: 8),
+        padding: EdgeInsets.symmetric(horizontal: 8),
         child: Stack(
           children: [
             ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(8)),
-              child: Image.asset(
-                "$imageDir/witcher_poster.jpg",
+              child: Ink.image(
+                image: AssetImage("$imageDir/witcher_poster.jpg"),
                 width: 175,
                 height: 350,
                 fit: BoxFit.cover,
@@ -154,39 +150,30 @@ class OnlyOnNetflixItem extends StatelessWidget {
 class MyListRow extends StatelessWidget {
   const MyListRow({Key? key}) : super(key: key);
 
-  onClickItem(context) {
-    showCustomBottomSheet(context);
-  }
-
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        onClickItem(context);
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: 8),
-            child: Text(
-              "My List",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: 8),
+          child: Text(
+            "My List",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: List.generate(
+              10,
+              (index) {
+                return HomePageItem();
+              },
             ),
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: List.generate(
-                10,
-                (index) {
-                  return HomePageItem();
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -200,19 +187,26 @@ class HomePageItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 8),
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            child: Image.asset(
-              "$imageDir/witcher_poster.jpg",
-              width: 120,
-              height: 150,
-              fit: BoxFit.cover,
+      child: InkWell(
+        onTap: (){
+          showCustomBottomSheet();
+        },
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              child: Ink.image(
+                image: AssetImage(
+                  "$imageDir/witcher_poster.jpg",
+                ),
+                width: 120,
+                height: 150,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          BottomTexts(),
-        ],
+            BottomTexts(),
+          ],
+        ),
       ),
     );
   }
@@ -223,7 +217,7 @@ class SpecialHomeContent extends StatelessWidget {
   const SpecialHomeContent({Key? key}) : super(key: key);
 
   void onPressedInfoButton(BuildContext context) {
-    showCustomBottomSheet(context);
+    showCustomBottomSheet();
   }
 
   @override
