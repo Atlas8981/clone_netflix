@@ -79,7 +79,7 @@ class ContinueWatchingRowItem extends StatelessWidget {
             ),
             Positioned.fill(
               child: Container(
-                margin: EdgeInsets.all(30.0),
+                margin: EdgeInsets.all(35.0),
                 decoration: BoxDecoration(
                   color: darkGrey.withOpacity(0.8),
                   border: Border.all(

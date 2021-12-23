@@ -369,7 +369,7 @@ void showCustomBottomSheet({
     child,
     backgroundColor: Colors.transparent,
     barrierColor: Colors.transparent,
-    enterBottomSheetDuration: Duration(milliseconds: 150),
-    exitBottomSheetDuration: Duration(milliseconds: 150),
+    enterBottomSheetDuration: Duration(milliseconds: 100),
+    exitBottomSheetDuration: Duration(milliseconds: 100),
   );
 }
