@@ -107,36 +107,45 @@ class OnlyOnNetflixItem extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  void onClickItem(context) {
+    showCustomBottomSheet(context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 8),
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            child: Image.asset(
-              "$imageDir/witcher_poster.jpg",
-              width: 175,
-              height: 350,
-              fit: BoxFit.cover,
+    return InkWell(
+      onTap: () {
+        onClickItem(context);
+      },
+      child: Padding(
+        padding: EdgeInsets.only(left: 8),
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              child: Image.asset(
+                "$imageDir/witcher_poster.jpg",
+                width: 175,
+                height: 350,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          BottomTexts(
-            bottomTextModels: [
-              BottomTextModel(
-                text: "New Episode",
-                backgroundColor: primaryColor,
-                textColor: Colors.white,
-              ),
-              BottomTextModel(
-                text: "Weekly",
-                backgroundColor: Colors.white,
-                textColor: Colors.black,
-              ),
-            ],
-          )
-        ],
+            BottomTexts(
+              bottomTextModels: [
+                BottomTextModel(
+                  text: "New Episode",
+                  backgroundColor: primaryColor,
+                  textColor: Colors.white,
+                ),
+                BottomTextModel(
+                  text: "Weekly",
+                  backgroundColor: Colors.white,
+                  textColor: Colors.black,
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -145,30 +154,39 @@ class OnlyOnNetflixItem extends StatelessWidget {
 class MyListRow extends StatelessWidget {
   const MyListRow({Key? key}) : super(key: key);
 
+  onClickItem(context) {
+    showCustomBottomSheet(context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 8),
-          child: Text(
-            "My List",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-        ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: List.generate(
-              10,
-              (index) {
-                return HomePageItem();
-              },
+    return InkWell(
+      onTap: () {
+        onClickItem(context);
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 8),
+            child: Text(
+              "My List",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ),
-        ),
-      ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: List.generate(
+                10,
+                (index) {
+                  return HomePageItem();
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -205,15 +223,7 @@ class SpecialHomeContent extends StatelessWidget {
   const SpecialHomeContent({Key? key}) : super(key: key);
 
   void onPressedInfoButton(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return ContentInfoBottomSheet();
-      },
-      isScrollControlled: false,
-      barrierColor: Colors.transparent,
-      backgroundColor: Colors.transparent,
-    );
+    showCustomBottomSheet(context);
   }
 
   @override
@@ -310,4 +320,3 @@ class SpecialHomeContent extends StatelessWidget {
     );
   }
 }
-

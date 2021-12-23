@@ -1,3 +1,4 @@
+import 'package:clone_netflix/utils/constant.dart';
 import 'package:clone_netflix/views/tv_shows_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -28,6 +29,13 @@ class CustomAppBar extends StatelessWidget {
               FlutterLogo(
                 size: 42,
               ),
+              // Image.asset(
+              //   "$imageDir/netflix.png",
+              //   width: 50,
+              //   fit: BoxFit.cover
+              //   ,
+              //   // height: 50,
+              // ),
               Row(
                 children: [
                   Icon(
@@ -50,31 +58,28 @@ class CustomAppBar extends StatelessWidget {
           pinned: true,
           delegate: SafeAreaPersistentHeaderDelegate(
             backgroundColor: changingColor,
-            child: Container(
-              // color: Colors.red,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _AppBarButton(
-                          title: 'TV Shows',
-                          onTap: () => Get.to(() => TvShowsPage()),
-                        ),
-                        _AppBarButton(
-                          title: 'Movies',
-                          onTap: () => print('Movies'),
-                        ),
-                        _AppBarButton(
-                          title: 'My List',
-                          onTap: () => print('My List'),
-                        ),
-                      ],
-                    ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _AppBarButton(
+                        title: 'TV Shows',
+                        onTap: () => Get.to(() => TvShowsPage()),
+                      ),
+                      _AppBarButton(
+                        title: 'Movies',
+                        onTap: () => print('Movies'),
+                      ),
+                      _AppBarButton(
+                        title: 'My List',
+                        onTap: () => print('My List'),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

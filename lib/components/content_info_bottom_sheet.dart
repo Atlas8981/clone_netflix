@@ -115,13 +115,13 @@ class ContentInfoBottomSheet extends StatelessWidget {
           Text(
             "The Witcher",
             style:
-            TextStyle(fontWeight: FontWeight.bold, fontSize: 22, height: 1),
+                TextStyle(fontWeight: FontWeight.bold, fontSize: 22, height: 1),
           ),
           //Metadata
           Row(
             children: List.generate(
               contentMetadata.length,
-                  (index) {
+              (index) {
                 return Padding(
                   padding: EdgeInsets.only(right: 8),
                   child: Text(
@@ -140,7 +140,7 @@ class ContentInfoBottomSheet extends StatelessWidget {
             dummyDescription,
             // maxLines: 4,
             style: TextStyle(
-              // fontSize: 12,
+                // fontSize: 12,
                 height: 1.5,
                 letterSpacing: 0.1,
                 wordSpacing: 0.1),
@@ -271,4 +271,17 @@ class ContentInfoBottomSheet extends StatelessWidget {
       ),
     );
   }
+}
+
+void showCustomBottomSheet(BuildContext context) {
+  if (Get.isBottomSheetOpen!) {
+    return;
+  }
+  Get.bottomSheet(
+    ContentInfoBottomSheet(),
+    backgroundColor: Colors.transparent,
+    barrierColor: Colors.transparent,
+    enterBottomSheetDuration: Duration(milliseconds: 150),
+    exitBottomSheetDuration: Duration(milliseconds: 150),
+  );
 }
