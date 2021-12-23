@@ -51,7 +51,7 @@ class CustomAppBar extends StatelessWidget {
           delegate: SafeAreaPersistentHeaderDelegate(
             backgroundColor: changingColor,
             child: Container(
-              color: Colors.red,
+              // color: Colors.red,
               child: Row(
                 children: [
                   Expanded(
