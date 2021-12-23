@@ -218,6 +218,43 @@ class ContentInfoBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return CustomBottomSheetStarterWidget(
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.only(
+              top: 12,
+              right: 8,
+              left: 8,
+            ),
+            child: Column(
+              children: [
+                contentInfo(),
+                specialText(),
+                buttonsRow(),
+              ],
+            ),
+          ),
+          Divider(
+            color: Colors.white,
+            height: 1,
+          ),
+          bottomButton(),
+        ],
+      ),
+    );
+  }
+}
+
+class CustomBottomSheetStarterWidget extends StatelessWidget {
+  const CustomBottomSheetStarterWidget({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -230,30 +267,10 @@ class ContentInfoBottomSheet extends StatelessWidget {
         children: [
           Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: EdgeInsets.only(
-                  top: 12,
-                  right: 8,
-                  left: 8,
-                ),
-                child: Column(
-                  children: [
-                    contentInfo(),
-                    specialText(),
-                    buttonsRow(),
-                  ],
-                ),
-              ),
-              Divider(
-                color: Colors.white,
-                height: 1,
-              ),
-              bottomButton(),
-            ],
+            children: [child],
           ),
           Positioned(
-            top: 8,
+            top: 12,
             right: 12,
             child: IconButton(
               padding: EdgeInsets.zero,
@@ -273,12 +290,83 @@ class ContentInfoBottomSheet extends StatelessWidget {
   }
 }
 
-void showCustomBottomSheet() {
+class _MoreInfoItem {
+  final String title;
+  final IconData iconData;
+
+  _MoreInfoItem(this.title, this.iconData);
+}
+
+class MoreInfoBottomSheet extends StatelessWidget {
+  MoreInfoBottomSheet({Key? key}) : super(key: key);
+
+  final List<_MoreInfoItem> moreInfoList = [
+    _MoreInfoItem(
+      "Episodes & Info",
+      Icons.info_outline,
+    ),
+    _MoreInfoItem(
+      "Download",
+      Icons.download_sharp,
+    ),
+    _MoreInfoItem(
+      "Rated",
+      Icons.thumb_up,
+    ),
+    _MoreInfoItem(
+      "Remove From Row",
+      Icons.close,
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomBottomSheetStarterWidget(
+      child: Container(
+        padding: EdgeInsets.only(
+          top: 12,
+          right: 8,
+          left: 8,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "The Witcher",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 24
+              ),
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: moreInfoList.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(moreInfoList[index].title),
+                  leading: Icon(
+                    moreInfoList[index].iconData,
+                    color: Colors.white,
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+void showCustomBottomSheet({
+  required Widget child,
+}) {
   if (Get.isBottomSheetOpen!) {
-    return;
+    Get.back();
   }
   Get.bottomSheet(
-    ContentInfoBottomSheet(),
+    child,
     backgroundColor: Colors.transparent,
     barrierColor: Colors.transparent,
     enterBottomSheetDuration: Duration(milliseconds: 150),

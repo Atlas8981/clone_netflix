@@ -1,3 +1,4 @@
+import 'package:clone_netflix/utils/constant.dart';
 import 'package:clone_netflix/utils/initial_binding.dart';
 import 'package:clone_netflix/views/home_page.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class NetflixUiClone extends StatelessWidget {
       initialBinding: InitialBinding(),
       themeMode: ThemeMode.light,
       theme: ThemeData.light().copyWith(
-        primaryColor: const Color.fromRGBO(100, 229, 9, 1),
+        primaryColor: primaryColor,
         // backgroundColor: Colors.black,
         // scaffoldBackgroundColor: Colors.black,
         iconTheme: IconThemeData(color: Colors.white),

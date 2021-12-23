@@ -1,7 +1,8 @@
 import 'package:clone_netflix/components/bottom_text.dart';
-import 'package:clone_netflix/components/content_info_bottom_sheet.dart';
+import 'package:clone_netflix/components/custom_bottom_sheets.dart';
 import 'package:clone_netflix/components/custom_scaffold.dart';
 import 'package:clone_netflix/utils/constant.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             SpecialHomeContent(),
+            ContinueWatchingList(),
             MyListRow(),
             OnlyOnNetflixRow(),
             TrendingRow(),
@@ -34,36 +36,158 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+class ContinueWatchingList extends StatelessWidget {
+  const ContinueWatchingList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return HomePageRowStarterWidget(
+      title: "Continue Watching for Atlas",
+      itemRow: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: List.generate(
+            10,
+            (index) {
+              return ContinueWatchingRowItem(
+                inMyList: false,
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ContinueWatchingRowItem extends StatelessWidget {
+  const ContinueWatchingRowItem({
+    Key? key,
+    this.inMyList,
+  }) : super(key: key);
+
+  final bool? inMyList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Stack(
+          children: [
+            HomePageItem(
+              inMyList: inMyList,
+            ),
+            Positioned.fill(
+              child: Container(
+                margin: EdgeInsets.all(30.0),
+                decoration: BoxDecoration(
+                  color: darkGrey.withOpacity(0.8),
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 2.5,
+                  ),
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  onPressed: () {
+
+                  },
+                  icon: Icon(
+                    Icons.play_arrow_sharp,
+                    size: 48,
+                  ),
+                ),
+              ),
+            ),
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 8),
+                  // color: Colors.red,
+                  height: 150 / 4,
+                  width: double.maxFinite,
+                  decoration: BoxDecoration(
+                    // color: darkGrey.withOpacity(0.8),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.black.withOpacity(0),
+                        Colors.black.withOpacity(0.7),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+        SizedBox(
+          width: 120,
+          child: LinearProgressIndicator(
+            minHeight: 2,
+            value: 0.2,
+            backgroundColor: Colors.grey,
+            valueColor: AlwaysStoppedAnimation<Color>(
+              primaryColor,
+            ),
+          ),
+        ),
+        Container(
+          color: darkGrey,
+          // height: 150/4,
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          width: 120,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                padding: EdgeInsets.all(0),
+                constraints: BoxConstraints(),
+                onPressed: () {
+                  showCustomBottomSheet(
+                    child: ContentInfoBottomSheet(),
+                  );
+                },
+                icon: Icon(Icons.info_outline),
+              ),
+              IconButton(
+                padding: EdgeInsets.all(0),
+                constraints: BoxConstraints(),
+                onPressed: () {
+                  showCustomBottomSheet(
+                    child: MoreInfoBottomSheet(),
+                  );
+                },
+                icon: Icon(Icons.more_vert),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class TrendingRow extends StatelessWidget {
   const TrendingRow({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 8, top: 8),
-          child: Text(
-            "Trending",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+    return HomePageRowStarterWidget(
+      title: "Trending",
+      itemRow: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: List.generate(
+            10,
+            (index) {
+              return HomePageItem();
+            },
           ),
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: List.generate(
-              10,
-              (index) {
-                return HomePageItem();
-              },
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
@@ -73,31 +197,19 @@ class OnlyOnNetflixRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 8, top: 8),
-          child: Text(
-            "Only On Netflix",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+    return HomePageRowStarterWidget(
+      title: "Only On Netflix",
+      itemRow: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: List.generate(
+            10,
+            (index) {
+              return OnlyOnNetflixItem();
+            },
           ),
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: List.generate(
-              10,
-              (index) {
-                return OnlyOnNetflixItem();
-              },
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
@@ -111,7 +223,7 @@ class OnlyOnNetflixItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        showCustomBottomSheet();
+        showCustomBottomSheet(child: ContentInfoBottomSheet());
       },
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8),
@@ -152,27 +264,60 @@ class MyListRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return HomePageRowStarterWidget(
+      itemRow: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: List.generate(
+            10,
+            (index) {
+              return HomePageItem();
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class HomePageRowStarterWidget extends StatelessWidget {
+  const HomePageRowStarterWidget({
+    Key? key,
+    this.title = "My List",
+    required this.itemRow,
+  }) : super(key: key);
+
+  final String? title;
+  final Widget itemRow;
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: EdgeInsets.only(left: 8),
           child: Text(
-            "My List",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            "$title",
+            style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0,
+                wordSpacing: 0),
           ),
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: List.generate(
-              10,
-              (index) {
-                return HomePageItem();
-              },
-            ),
-          ),
-        ),
+        itemRow,
+        // SingleChildScrollView(
+        //   scrollDirection: Axis.horizontal,
+        //   child: Row(
+        //     children: List.generate(
+        //       10,
+        //           (index) {
+        //         return HomePageItem();
+        //       },
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
@@ -181,15 +326,18 @@ class MyListRow extends StatelessWidget {
 class HomePageItem extends StatelessWidget {
   const HomePageItem({
     Key? key,
+    this.inMyList = false,
   }) : super(key: key);
+
+  final bool? inMyList;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 8),
+      padding: EdgeInsets.symmetric(horizontal: 8),
       child: InkWell(
-        onTap: (){
-          showCustomBottomSheet();
+        onTap: () {
+          showCustomBottomSheet(child: ContentInfoBottomSheet());
         },
         child: Stack(
           children: [
@@ -205,6 +353,25 @@ class HomePageItem extends StatelessWidget {
               ),
             ),
             BottomTexts(),
+            Visibility(
+              visible: inMyList!,
+              child: Positioned(
+                top: 0,
+                right: 0,
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                  decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(8),
+                      )),
+                  child: Icon(
+                    Icons.check,
+                    size: 16,
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -217,7 +384,7 @@ class SpecialHomeContent extends StatelessWidget {
   const SpecialHomeContent({Key? key}) : super(key: key);
 
   void onPressedInfoButton(BuildContext context) {
-    showCustomBottomSheet();
+    showCustomBottomSheet(child: ContentInfoBottomSheet());
   }
 
   @override
