@@ -89,9 +89,7 @@ class ContinueWatchingRowItem extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: IconButton(
-                  onPressed: () {
-
-                  },
+                  onPressed: () {},
                   icon: Icon(
                     Icons.play_arrow_sharp,
                     size: 48,
@@ -387,6 +385,15 @@ class SpecialHomeContent extends StatelessWidget {
     showCustomBottomSheet(child: ContentInfoBottomSheet());
   }
 
+  static const List<String> genres = [
+    "Dark",
+    "Exciting",
+    "Fantasy Anime",
+    "Action",
+    "Supernatural",
+    "Dark",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -397,81 +404,112 @@ class SpecialHomeContent extends StatelessWidget {
           height: 600,
           width: Get.width,
         ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: SizedBox(
-            height: 600,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Expanded(
+                FittedBox(
                   child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.black.withOpacity(0),
-                          Colors.black.withOpacity(0.8),
-                          Colors.black.withOpacity(1),
-                        ],
-                      ),
+                    height: 25,
+                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return Text(
+                          genres[index],
+                          style: TextStyle(color: Colors.grey),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return Container(
+                          width: 5,
+                          margin: EdgeInsets.symmetric(horizontal: 5),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.grey
+                          ),
+                        );
+                      },
+                      itemCount: genres.length,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Tab(
-                          icon: Icon(Icons.add),
-                          child: Text(
-                            "My List",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          iconMargin: EdgeInsets.symmetric(vertical: 3),
-                        ),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.white),
-                          ),
-                          onPressed: () {},
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.play_arrow,
-                                color: Colors.black,
-                                size: 28,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "Play",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  // height: 2,
-                                ),
-                              ),
+                  ),
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.black.withOpacity(0),
+                              Colors.black.withOpacity(0.8),
+                              Colors.black.withOpacity(1),
                             ],
                           ),
                         ),
-                        InkWell(
-                          onTap: () {
-                            onPressedInfoButton(context);
-                          },
-                          child: Tab(
-                            icon: Icon(Icons.info_outline),
-                            child: Text(
-                              "Something",
-                              style: TextStyle(color: Colors.white),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Tab(
+                              icon: Icon(Icons.add),
+                              child: Text(
+                                "My List",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              iconMargin: EdgeInsets.symmetric(vertical: 3),
                             ),
-                            iconMargin: EdgeInsets.symmetric(vertical: 3),
-                          ),
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.white),
+                              ),
+                              onPressed: () {},
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.play_arrow,
+                                    color: Colors.black,
+                                    size: 28,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "Play",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      // height: 2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                onPressedInfoButton(context);
+                              },
+                              child: Tab(
+                                icon: Icon(Icons.info_outline),
+                                child: Text(
+                                  "Something",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                iconMargin: EdgeInsets.symmetric(vertical: 3),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),
